@@ -1,0 +1,65 @@
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import authRoutes from './routes/auth.js';
+import adminEncuestasRoutes from './routes/admin/encuestas.js';
+import adminCandidatosRoutes from './routes/admin/candidatos.js';
+import adminResultadosRoutes from './routes/admin/resultados.js';
+import publicEncuestasRoutes from './routes/public/encuestas.js';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Seguridad
+app.use(helmet());
+// Necesario para leer la IP real cuando hay proxy (nginx, Vercel, etc.)
+app.set('trust proxy', 1);
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
+}));
+app.use(express.json({ limit: '10mb' }));
+
+// Archivos estáticos (imágenes de candidatos)
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
+// Rutas
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminEncuestasRoutes);
+app.use('/api/admin', adminCandidatosRoutes);
+app.use('/api/admin', adminResultadosRoutes);
+app.use('/api/public', publicEncuestasRoutes);
+
+// Health check
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true, timestamp: new Date().toISOString() });
+});
+
+// Manejo de rutas no encontradas
+app.use((_req, res) => {
+  res.status(404).json({ ok: false, message: 'Ruta no encontrada' });
+});
+
+// Manejo global de errores
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  res.status(err.status || 500).json({
+    ok: false,
+    message: err.message || 'Error interno del servidor'
+  });
+});
+
+// En desarrollo local levanta el servidor; en Vercel se usa como serverless
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+}
+
+export default app;
