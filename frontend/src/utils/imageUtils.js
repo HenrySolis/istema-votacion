@@ -1,11 +1,17 @@
 /**
  * URL base del backend (sin el sufijo /api).
- * En desarrollo es cadena vacía para que el proxy de Vite gestione /uploads.
- * En producción, VITE_API_URL debe ser "https://tu-backend.onrender.com/api".
+ * Funciona correctamente ya sea que VITE_API_URL incluya '/api' o no.
+ * En desarrollo (sin VITE_API_URL) queda vacío para que el proxy de Vite
+ * gestione /uploads → localhost:3000.
  */
-const BACKEND_BASE = import.meta.env.VITE_API_URL
-  ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '')
-  : '';
+function buildBackendBase() {
+  const raw = import.meta.env.VITE_API_URL;
+  if (!raw) return '';
+  const base = raw.replace(/\/+$/, '');                    // quitar barras finales
+  return base.endsWith('/api') ? base.slice(0, -4) : base; // quitar /api si está
+}
+
+const BACKEND_BASE = buildBackendBase();
 
 /**
  * Convierte una foto_url relativa (/uploads/...) en una URL absoluta

@@ -1,7 +1,20 @@
 import axios from 'axios';
 
-// En producción usa VITE_API_URL; en desarrollo usa el proxy de Vite (/api → localhost:3000)
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+/**
+ * Construye la baseURL de axios de forma segura:
+ * - Desarrollo:  sin VITE_API_URL → '/api'  (el proxy de Vite redirige a localhost:3000)
+ * - Producción:  VITE_API_URL puede venir con o sin '/api' al final;
+ *                esta función garantiza que siempre termine en '/api'
+ *                y nunca se duplique ('/api/api').
+ */
+function buildApiBase() {
+  const raw = import.meta.env.VITE_API_URL;
+  if (!raw) return '/api';
+  const base = raw.replace(/\/+$/, '');        // quitar barras finales
+  return base.endsWith('/api') ? base : `${base}/api`;
+}
+
+const API_URL = buildApiBase();
 
 const api = axios.create({
   baseURL: API_URL,
