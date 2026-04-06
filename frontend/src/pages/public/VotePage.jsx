@@ -297,7 +297,7 @@ export default function VotePage() {
           <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
             timeLabel ? 'bg-orange-500' : 'bg-green-500'
           }`} />
-          {timeLabel ? `&#x23F1;&#xFE0F; ${timeLabel}` : 'Votaci&#xf3;n abierta'}
+          {timeLabel ? `⏱️ ${timeLabel}` : 'Votación abierta'}
         </span>
       } />
 
