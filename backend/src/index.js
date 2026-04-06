@@ -42,7 +42,13 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 
 // Archivos estáticos (imágenes de candidatos)
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+// Se sobreescribe Cross-Origin-Resource-Policy a "cross-origin" para que el frontend
+// en Vercel pueda cargar las imágenes servidas desde este backend en Render.
+// Helmet lo establece como "same-origin" por defecto, lo que causa ERR_BLOCKED_BY_RESPONSE.
+app.use('/uploads', (_req, res, next) => {
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+}, express.static(path.join(__dirname, '..', 'uploads')));
 
 // Rutas
 app.use('/api/auth', authRoutes);
