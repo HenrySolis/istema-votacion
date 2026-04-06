@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node --env-file=.env src/index.js",
-    "dev": "nodemon --env-file=.env src/index.js",
+    "start": "node api.js && node --env-file=.env src/index.js",
+    "dev": "node api.js && nodemon --env-file=.env src/index.js",
     "crear-admin": "node scripts/crear-admin.js"
   },
   "dependencies": {
