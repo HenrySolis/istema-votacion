@@ -16,13 +16,28 @@ import publicEncuestasRoutes from './routes/public/encuestas.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Orígenes permitidos: se puede ampliar con FRONTEND_URL o CORS_ORIGIN en el entorno
+const ALLOWED_ORIGINS = new Set([
+  'http://localhost:5173',
+  'https://istema-votacion.vercel.app',
+  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+  ...(process.env.CORS_ORIGIN ? [process.env.CORS_ORIGIN] : []),
+]);
+
 // Seguridad
 app.use(helmet());
 // Necesario para leer la IP real cuando hay proxy (nginx, Vercel, etc.)
 app.set('trust proxy', 1);
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  credentials: true
+  origin: (origin, callback) => {
+    // Permitir peticiones sin origin (curl, Postman, SSR, etc.)
+    if (!origin || ALLOWED_ORIGINS.has(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origen no permitido por CORS: ${origin}`));
+    }
+  },
+  credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
 
