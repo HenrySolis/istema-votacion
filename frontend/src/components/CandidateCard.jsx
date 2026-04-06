@@ -1,3 +1,5 @@
+import { getImageUrl } from '../utils/imageUtils.js';
+
 /* ─── Colores de gradiente para avatares sin foto ─── */
 const GRAD = [
   'from-blue-400 to-indigo-500',
@@ -32,7 +34,7 @@ export default function CandidateCard({ candidato, selected, onSelect, disabled 
         selected ? 'border-blue-400/40' : 'border-gray-100'
       } flex-shrink-0`}>
         {candidato.foto_url ? (
-          <img src={candidato.foto_url} alt={candidato.nombre}
+          <img src={getImageUrl(candidato.foto_url)} alt={candidato.nombre}
                className="w-full h-full object-cover" />
         ) : (
           <div className={`w-full h-full flex items-center justify-center

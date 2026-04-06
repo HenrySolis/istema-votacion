@@ -4,6 +4,7 @@ import api from '../../services/api.js';
 import { CardSpotlight } from '../../components/CardSpotlight.jsx';
 import { StatefulVoteButton } from '../../components/StatefulVoteButton.jsx';
 import { WavyBackground } from '../../components/WavyBackground.jsx';
+import { getImageUrl } from '../../utils/imageUtils.js';
 
 /* Logo con imagen real (public/images/logo.png) y fallback gradient */
 function LogoImg() {
@@ -58,7 +59,7 @@ function MiniBar({ candidato, total, color }) {
       <div className="flex items-center gap-2 mb-1">
         {/* Avatar del candidato */}
         {candidato.foto_url ? (
-          <img src={candidato.foto_url} alt={candidato.nombre}
+          <img src={getImageUrl(candidato.foto_url)} alt={candidato.nombre}
                className="w-5 h-5 rounded-full object-cover flex-shrink-0" />
         ) : (
           <div className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center
@@ -128,7 +129,7 @@ function PollCard({ encuesta, index }) {
               }}
             >
               {lider?.foto_url ? (
-                <img src={lider.foto_url} alt={lider.nombre} className="w-full h-full object-cover" />
+                <img src={getImageUrl(lider.foto_url)} alt={lider.nombre} className="w-full h-full object-cover" />
               ) : (
                 lider ? lider.nombre[0].toUpperCase() : '?'
               )}
@@ -162,7 +163,7 @@ function PollCard({ encuesta, index }) {
               }}
             >
               {challenger?.foto_url ? (
-                <img src={challenger.foto_url} alt={challenger.nombre} className="w-full h-full object-cover" />
+                <img src={getImageUrl(challenger.foto_url)} alt={challenger.nombre} className="w-full h-full object-cover" />
               ) : (
                 challenger ? challenger.nombre[0].toUpperCase() : '?'
               )}
@@ -237,7 +238,7 @@ function PollCard({ encuesta, index }) {
                   </p>
                 </div>
                 {lider.foto_url && (
-                  <img src={lider.foto_url} alt={lider.nombre}
+                  <img src={getImageUrl(lider.foto_url)} alt={lider.nombre}
                        className="w-8 h-8 rounded-full object-cover border-2 ml-auto"
                        style={{ borderColor: palette.from + '44' }} />
                 )}

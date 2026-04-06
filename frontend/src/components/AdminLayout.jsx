@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { Avatar, AvatarFallback, AvatarImage, AvatarBadge } from './ui/avatar.jsx';
+import { getImageUrl } from '../utils/imageUtils.js';
 
 /* ─── Iconos SVG inline para el sidebar ─── */
 const Icons = {
@@ -86,7 +87,7 @@ export default function AdminLayout({ children }) {
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-3 py-2.5">
               <Avatar className="h-9 w-9 flex-shrink-0">
                 <AvatarImage
-                  src={admin.foto_url || '/images/Avatar.jpg'}
+                  src={getImageUrl(admin.foto_url) || '/images/Avatar.jpg'}
                   alt={admin.nombre}
                 />
                 <AvatarFallback>{initials}</AvatarFallback>

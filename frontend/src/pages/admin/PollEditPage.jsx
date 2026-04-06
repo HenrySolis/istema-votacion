@@ -4,6 +4,7 @@ import { pollService } from '../../services/pollService.js';
 import Button from '../../components/Button.jsx';
 import Input from '../../components/Input.jsx';
 import QRCodeBox from '../../components/QRCodeBox.jsx';
+import { getImageUrl } from '../../utils/imageUtils.js';
 
 /* --- Convierte texto a slug seguro para URL --- */
 function slugify(text) {
@@ -248,7 +249,7 @@ export default function PollEditPage() {
                        className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
                     {/* Foto o inicial */}
                     {c.foto_url ? (
-                      <img src={c.foto_url} alt={c.nombre}
+                      <img src={getImageUrl(c.foto_url)} alt={c.nombre}
                            className="w-10 h-10 rounded-full object-cover flex-shrink-0 border-2 border-white shadow-sm" />
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center

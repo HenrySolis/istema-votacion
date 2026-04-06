@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { pollService } from '../../services/pollService.js';
 import ResultChart from '../../components/ResultChart.jsx';
+import { getImageUrl } from '../../utils/imageUtils.js';
 
 /* ─── Icono de refresco animado ─── */
 function RefreshIcon({ spinning }) {
@@ -124,7 +125,7 @@ export default function PollResultsPage() {
                         flex items-center gap-5 text-white shadow-md">
           {/* Avatar del ganador */}
           {ganador.foto_url ? (
-            <img src={ganador.foto_url} alt={ganador.nombre}
+            <img src={getImageUrl(ganador.foto_url)} alt={ganador.nombre}
                  className="w-16 h-16 rounded-2xl object-cover border-2 border-white/30 flex-shrink-0" />
           ) : (
             <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center

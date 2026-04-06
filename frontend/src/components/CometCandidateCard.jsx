@@ -1,4 +1,5 @@
 ﻿import { useRef, useState } from 'react';
+import { getImageUrl } from '../utils/imageUtils.js';
 
 const GRAD = [
   ['#60a5fa', '#818cf8'],
@@ -108,7 +109,7 @@ export default function CometCandidateCard({
           >
             {candidato.foto_url ? (
               <img
-                src={candidato.foto_url}
+                src={getImageUrl(candidato.foto_url)}
                 alt={candidato.nombre}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

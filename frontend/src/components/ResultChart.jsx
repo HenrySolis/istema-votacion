@@ -3,6 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
   PieChart, Pie, Legend,
 } from 'recharts';
+import { getImageUrl } from '../utils/imageUtils.js';
 
 /* ─── Paleta de colores para candidatos ─── */
 const COLORS = [
@@ -46,7 +47,7 @@ export default function ResultChart({ resultados, totalVotos }) {
     nombre: r.nombre,
     votos:  parseInt(r.votos) || 0,
     pct:    totalVotos > 0 ? Math.round(((parseInt(r.votos) || 0) / totalVotos) * 100) : 0,
-    foto:   r.foto_url,
+    foto:   getImageUrl(r.foto_url),
     color:  COLORS[i % COLORS.length],
   }));
 
